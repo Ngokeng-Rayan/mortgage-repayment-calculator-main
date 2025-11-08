@@ -1,0 +1,441 @@
+:root {
+    --lime: hsl(61, 70%, 52%);
+    --red: hsl(4, 69%, 50%);
+    --white: hsl(0, 0%, 100%);
+    --slate-100: hsl(202, 86%, 94%);
+    --slate-300: hsl(203, 41%, 72%);
+    --slate-500: hsl(200, 26%, 54%);
+    --slate-700: hsl(200, 24%, 40%);
+    --slate-900: hsl(202, 55%, 16%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: var(--slate-100);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    max-width: 1008px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.05);
+}
+
+.calculator-panel,
+.results-panel {
+    flex: 1 1 0%; /* always exactly half width in row */
+    min-width: 0; /* prevents overflow */
+}
+
+/* Left Panel - Calculator */
+.calculator-panel {
+    flex: 1;
+    padding: 40px;
+}
+
+.calculator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.calculator-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--slate-900);
+}
+
+.clear-btn {
+    background: none;
+    border: none;
+    color: var(--slate-700);
+    font-size: 16px;
+    font-family: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+}
+
+.clear-btn:hover {
+    color: var(--slate-900);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--slate-700);
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    border: 1px solid var(--slate-500);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.input-wrapper:hover {
+    border-color: var(--slate-900);
+}
+
+.input-wrapper.focused {
+    border-color: var(--lime);
+}
+
+.input-wrapper.error {
+    border-color: var(--red);
+}
+
+.input-symbol {
+    background: var(--slate-100);
+    color: var(--slate-700);
+    font-weight: 700;
+    font-size: 18px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    flex: 0 0 48px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.input-wrapper.focused .input-symbol {
+    background: var(--lime);
+    color: var(--slate-900);
+}
+
+.input-wrapper.error .input-symbol {
+    background: var(--red);
+    color: var(--white);
+}
+
+input[type="number"] {
+    flex: 1 1 0px;
+    min-width: 0;
+    border: none;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--slate-900);
+    outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Two Column Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.form-row .form-group {
+    min-width: 0;
+    width: 100%;
+}
+.form-row .input-wrapper {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* Radio Buttons */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid var(--slate-500);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.radio-option:hover {
+    border-color: var(--lime);
+}
+
+.radio-option.selected {
+    background: hsla(61, 70%, 52%, 0.15);
+    border-color: var(--lime);
+}
+
+.radio-option input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--slate-500);
+    border-radius: 50%;
+    margin-right: 16px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.radio-option input[type="radio"]:checked {
+    border-color: var(--lime);
+}
+
+.radio-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--lime);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-option label {
+    font-weight: 700;
+    color: var(--slate-900);
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Error Message */
+.error-message {
+    color: var(--red);
+    font-size: 14px;
+    margin-top: 8px;
+    display: none;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+.form-group.error label {
+    color: var(--red);
+}
+
+/* Calculate Button */
+.calculate-btn {
+    width: 100%;
+    max-width: 314px;
+    background: var(--lime);
+    border: none;
+    border-radius: 999px;
+    padding: 16px 40px;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--slate-900);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+    transition: background-color 0.2s;
+}
+
+.calculate-btn:hover {
+    background: hsla(61, 70%, 52%, 0.5);
+}
+
+.calculate-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Right Panel - Results */
+.results-panel {
+    flex: 1;
+    background: var(--slate-900);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 80px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    max-width: 400px;
+}
+
+.empty-state img {
+    margin-bottom: 16px;
+}
+
+.empty-state h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+}
+
+.empty-state p {
+    color: var(--slate-300);
+    line-height: 1.5;
+}
+
+/* Results Display */
+.results-display {
+    display: none;
+    width: 100%;
+    max-width: 500px;
+}
+
+.results-display.active {
+    display: block;
+}
+
+.results-display h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+}
+
+.results-display > p {
+    color: var(--slate-300);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.results-box {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 32px;
+    border-top: 4px solid var(--lime);
+}
+
+.result-item {
+    margin-bottom: 32px;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+.result-label {
+    color: var(--slate-300);
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.result-value {
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--lime);
+    line-height: 1;
+}
+
+.result-divider {
+    height: 1px;
+    background: var(--slate-700);
+    margin: 32px 0;
+}
+
+.result-item.total .result-value {
+    font-size: 24px;
+    color: var(--white);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        align-items: flex-start;
+    }
+
+    .container {
+        flex-direction: column;
+        border-radius: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .calculator-panel {
+        padding: 32px 24px;
+    }
+
+    .calculator-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 32px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .form-row .form-group {
+        width: 100%;
+    }
+    .form-row .input-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .calculate-btn {
+        max-width: 100%;
+    }
+
+    .results-panel {
+        border-radius: 0;
+        padding: 32px 24px;
+    }
+
+    .results-box {
+        padding: 24px;
+    }
+
+    .result-value {
+        font-size: 40px;
+    }
+}
+
+
